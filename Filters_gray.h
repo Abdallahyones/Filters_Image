@@ -55,5 +55,14 @@ void filter8_4(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 //Assume the image consist of 4 quarters as shown, the user enters the order he wants to the quarters in the new image
 void Shuffle_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
+// This filter allows the user to shrink the image dimensions to 1/2, 1/3 or 1/4 the original dimensions.
+void Shrink_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
+// calculate avrage for pixle in image
+int average(int x , int y , unsigned char image[][SIZE] );
+
+// This filter produces a bury version of the image.
+void Blur(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
 
 #endif //TESTING_FILTERS_GRAY_H
