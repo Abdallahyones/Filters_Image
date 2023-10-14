@@ -42,8 +42,18 @@ void Detect_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE])
 // This filter mirrors 1/2 of the image as seen here in order: Left 1/2, Right 1/2, Upper 1/2 and Lower 1/2.
 void Mirror_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
-
 // This filter allows entering an x, y position and cutting a square of length and width l, w to keep and removing the rest
 void Crop_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
+// This filter allows the user to enlarge one of the four quarters of the image into a separate new image
+void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+void filter8_1(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+void filter8_2(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+void filter8_3(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+void filter8_4(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
+//Assume the image consist of 4 quarters as shown, the user enters the order he wants to the quarters in the new image
+void Shuffle_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
 
 #endif //TESTING_FILTERS_GRAY_H
