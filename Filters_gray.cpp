@@ -46,10 +46,10 @@ char input_program (){
          << "5-\tDarken and Lighten Image\n"
          << "6-\tRotate Image\n"
          << "7-\tDetect Image Edges\n"
-         << "8-\tEnlarge Image#\n"   // abdo
+         << "8-\tEnlarge Image#\n"   
          << "9-\tShrink Image# \n"  // omar
          <<"a-\tMirror 1/2 Image\n"
-         <<"b-\tShuffle Image#\n"  // abdo
+         <<"b-\tShuffle Image#\n" 
          <<"c-\tBlur Image#\n"  // omar
          <<"d-\tCrop Image\n"
          <<"e-\tSkew Image Right#\n" // abdo
@@ -322,6 +322,96 @@ void Crop_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
     }
 
 }
+
+void Shuffle_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    cout << "Please enter new order of quarters ? " ;
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if(a==4)new_image[i/2][j/2]=image[(i/2)+128][(j/2)+128];
+            if(a==3)new_image[i/2][j/2]=image[(i/2)+128][(j/2)];
+            if(a==2)new_image[i/2][j/2]=image[(i/2)][(j/2)+128];
+            if(a==1) new_image[i/2][j/2]=image[(i/2)][(j/2)];
+            if(b==4)new_image[i/2][(j/2)+128]=image[(i/2)+128][(j/2)+128];
+            if(b==3)new_image[i/2][(j/2)+128]=image[(i/2)+128][(j/2)];
+            if(b==2)new_image[i/2][(j/2)+128]=image[(i/2)][(j/2)+128];
+            if(b==1)new_image[i/2][(j/2)+128]=image[(i/2)][(j/2)];
+            if(c==4)new_image[(i/2)+128][j/2]=image[(i/2)+128][(j/2)+128];
+            if(c==3)new_image[(i/2)+128][j/2]=image[(i/2)+128][(j/2)];
+            if(c==2)new_image[(i/2)+128][j/2]=image[(i/2)][(j/2)+128];
+            if(c==1)new_image[(i/2)+128][j/2]=image[(i/2)][(j/2)];
+            if(d==4)new_image[(i/2)+128][(j/2)+128]=image[(i/2)+128][(j/2)+128];
+            if(d==3)new_image[(i/2)+128][(j/2)+128]=image[(i/2)+128][(j/2)];
+            if(d==2)new_image[(i/2)+128][(j/2)+128]=image[(i/2)][(j/2)+128];
+            if(d==1)new_image[(i/2)+128][(j/2)+128]=image[(i/2)][(j/2)];
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
+        }
+    }
+}
+
+void filter8_4(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            new_image[i][j] = image[(i / 2) + 128][(j / 2) + 128];
+        }
+    }
+}
+
+void filter8_3(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            new_image[i][j] = image[(i/2)+128][(j/2)];
+
+        }
+    }
+}
+void filter8_2(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            new_image[i][j] = image[i/2][(j/2)+128];
+
+        }
+    }
+}
+void filter8_1(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            new_image[i][j] = image[i / 2][j / 2];
+        }
+    }
+}
+
+void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    cout << "Which quarter to enlarge 1, 2, 3 or 4? ";
+    int num ;
+    cin >> num ;
+    switch (num) {
+        case 1:
+            filter8_1(image , new_image);
+            break;
+        case 2:
+            filter8_2(image , new_image);
+            break;
+        case 3:
+            filter8_3(image , new_image);
+            break;
+        case 4:
+            filter8_4(image, new_image);
+            break;
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
+        }
+    }
+}
+
 
 
 
