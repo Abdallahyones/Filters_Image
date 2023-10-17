@@ -64,5 +64,8 @@ int average(int x , int y , unsigned char image[][SIZE] );
 // This filter produces a bury version of the image.
 void Blur(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
+//This filter skew the image horizontally to a certain degree and compresses it to a size of 256 x 256.
+void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
+
 
 #endif //TESTING_FILTERS_GRAY_H
