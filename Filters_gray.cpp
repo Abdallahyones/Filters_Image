@@ -411,6 +411,44 @@ void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]
         }
     }
 }
+void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
+    double rad ; cin >> rad ;
+    rad=90-rad;
+    rad =(rad*3.14159/180);
+    int x=256/(1+1/tan(rad));
+    double step=SIZE-x;
+    double mov =step/SIZE;
+
+    for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
+            new_image[i][j] = 255;
+
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ){
+            new_image[i][j*int(x)/SIZE] = image[i][j];
+        }
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ){
+            image[i][j]=new_image[i][j];
+        }
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ){
+            new_image[i][j+(int)step]=image[i][j];
+        }
+        step-=mov;
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+            for ( int j=0;j<SIZE; j++ ){
+                image[i][j]=new_image[i][j];
+            }
+        }
+}
+
+
+
+
 
 
 
