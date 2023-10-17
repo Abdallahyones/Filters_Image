@@ -52,7 +52,7 @@ char input_program (){
          <<"b-\tShuffle Image#\n" 
          <<"c-\tBlur Image#\n"  // omar
          <<"d-\tCrop Image\n"
-         <<"e-\tSkew Image Right#\n" // abdo
+         <<"e-\tSkew Image Right#\n"
          <<"f-\tSkew Image Up#\n"   // omar
          <<"s-\tSave the image to a file\n"
          <<"0-\tExit \n";
@@ -79,7 +79,6 @@ void Black_White(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
 }
 void Invert_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
     // filter for invert image by complement
-
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0 ; j < SIZE ; j++) {
             new_image[i][j] = 255 - image[i][j];
@@ -324,6 +323,7 @@ void Crop_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
 }
 
 void Shuffle_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    //Assume the image consist of 4 quarters as shown, the user enters the order he wants to the quarters in the new image
     cout << "Please enter new order of quarters ? " ;
     int a, b, c, d;
     cin >> a >> b >> c >> d;
@@ -387,6 +387,7 @@ void filter8_1(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
 }
 
 void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    //This filter allows the user to enlarge one of the four quarters of the image into a separate new image
     cout << "Which quarter to enlarge 1, 2, 3 or 4? ";
     int num ;
     cin >> num ;
