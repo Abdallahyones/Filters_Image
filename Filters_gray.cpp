@@ -447,7 +447,48 @@ void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][S
         }
 }
 
+void Skew_Vertically(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    double degree ;
+    cout << "Please enter degree to skew right: " ;
+    cin >> degree;
+    degree = (degree*22)/(7*180);
 
+    double x = (tan(degree)*256 + 256)/256;  // rate of shrink
+    degree = atan(tan(degree)/x);    // shrink angle
+
+    for (int j = 0 ; j < SIZE ; j++){
+        int st = (SIZE-j-1)*tan(degree)  , end = SIZE-(j * tan(degree));
+//        cout << st << ' '<< end << '\n';
+        double lenght = end - st+1;
+        double shrink = SIZE / lenght;
+        int g = 0 , average = 0 , cnt = 1 ;
+        for  (int i = 0 ; i < SIZE ; i++){
+            average = 0 ;
+
+            if (i < st || i > end){
+                new_image[i][j] = 255;
+                continue;
+            }
+
+            // shrink of image
+
+            int num = 0 ;
+            for (; g < shrink*cnt ; g++){
+                average += image[g][j];
+                num++;
+            }
+            new_image[i][j] = average / num;
+            cnt++;
+        }
+    }
+
+    // Current image equal new_image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
+        }
+    }
+}
 
 
 
