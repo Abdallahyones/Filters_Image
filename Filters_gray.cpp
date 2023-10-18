@@ -426,7 +426,7 @@ void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][S
 
     for (int i = 0 ; i < SIZE ; i++ ){
         for ( int j=0;j<SIZE; j++ ){
-            new_image[i][j*int(x)/SIZE] = image[i][j];
+            new_image[i][j*int(x)/255] = image[i][j];
         }
     }
     for (int i = 0 ; i < SIZE ; i++ ){
