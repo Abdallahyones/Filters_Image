@@ -6,6 +6,7 @@
 // Author3 : Omar Khaled Elsayed Hussien        ID : 20220509
 
 
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -15,8 +16,9 @@
 
 
 using namespace std;
+const double  BY = 3.14285714286 ;
 unsigned char image[SIZE][SIZE] ;
-unsigned char new_image[SIZE][SIZE] ;
+unsigned char new_image[SIZE][SIZE] , ans[SIZE][SIZE] ;
 
 // new_image --> The new picture
 // image --> Current picture (input user)
@@ -26,6 +28,7 @@ void saveImage ();
 
 
 int main() {
+    cout << "Ahlan ya user ya habibi\n";
     loadImage();
     char num = input_program();
     while (num){
@@ -52,28 +55,28 @@ int main() {
                 Detect_Image(image , new_image);
                 break;
             case '8':
-                // abdo  function
+                Enlarge_Image(image , new_image);
                 break;
             case '9':
-                // omar funtion
+                Shrink_Image(image , new_image);
                 break;
             case 'a':
                 Mirror_Image(image , new_image);
                 break;
             case 'b':
-                // abdo  function
+                Shuffle_Image(image , new_image);
                 break;
             case 'c':
-                // omar funtion
+                Blur(image, new_image);
                 break;
             case 'd':
                 Crop_Image(image , new_image);
                 break;
             case 'e':
-                // abdo  function
+                Skew_Horizontally(image , new_image);
                 break;
             case 'f':
-                // omar  function
+                Skew_Vertically(image , new_image);
                 break;
             case 's':
                 saveImage();
@@ -81,7 +84,6 @@ int main() {
             case '0':
                 return 0 ;
         }
-        showGSBMP(new_image);
         num = input_program();
     }
     return 0 ;
@@ -113,3 +115,4 @@ void saveImage () {
     strcat (imageFileName, ".bmp");
     writeGSBMP(imageFileName, new_image);
 }
+

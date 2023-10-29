@@ -42,6 +42,7 @@ void Detect_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE])
 // This filter mirrors 1/2 of the image as seen here in order: Left 1/2, Right 1/2, Upper 1/2 and Lower 1/2.
 void Mirror_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
+
 // This filter allows entering an x, y position and cutting a square of length and width l, w to keep and removing the rest
 void Crop_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
@@ -64,8 +65,10 @@ int average(int x , int y , unsigned char image[][SIZE] );
 // This filter produces a bury version of the image.
 void Blur(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
-//This filter skew the image horizontally to a certain degree and compresses it to a size of 256 x 256.
+// This filter skews the image to the right or up with a given degree and compresses it to stay 256x256
 void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]);
 
+// This filter skews the image to the right or up with a given degree and compresses it to stay 256x256
+void Skew_Vertically(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) ;
 
 #endif //TESTING_FILTERS_GRAY_H

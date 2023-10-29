@@ -331,8 +331,8 @@ void show() {
     string command = "\\tmp\\bmplip.bmp";
     char cwd[PATH_MAX];
 //    cout << strcat(getcwd(cwd , sizeof (cwd)) , command.c_str());
-//    system(strcat(getcwd(cwd , sizeof (cwd)) , command.c_str()));
-    system("D:\\OOP\\testing\\cmake-build-debug\\tmp\\bmplib.bmp");
+    system(strcat(getcwd(cwd , sizeof (cwd)) , command.c_str()));
+//    system("D:\\OOP\\testing\\cmake-build-debug\\tmp\\bmplib.bmp");
     usleep(200000);
     shows++;
 }

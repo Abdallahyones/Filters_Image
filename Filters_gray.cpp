@@ -7,12 +7,10 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 #include <unistd.h>
 #include "bmplib.h"
 #include "Filters_gray.h"
-
-
-//#define BYTE_SWAP(num) (((num>>24)&0xff) | ((num<<8)&&0xff0000) | ((num>>8)&0xff00) | ((num<<24)&0xff000000))
 
 
 
@@ -46,21 +44,19 @@ char input_program (){
          << "5-\tDarken and Lighten Image\n"
          << "6-\tRotate Image\n"
          << "7-\tDetect Image Edges\n"
-         << "8-\tEnlarge Image#\n"   
-         << "9-\tShrink Image# \n"  // omar
+         << "8-\tEnlarge Image\n"   // abdo
+         << "9-\tShrink Image\n"  // omar
          <<"a-\tMirror 1/2 Image\n"
-         <<"b-\tShuffle Image#\n" 
-         <<"c-\tBlur Image#\n"  // omar
+         <<"b-\tShuffle Image\n"  // abdo
+         <<"c-\tBlur Image\n"  // omar
          <<"d-\tCrop Image\n"
-         <<"e-\tSkew Image Right#\n"
-         <<"f-\tSkew Image Up#\n"   // omar
+         <<"e-\tSkew Image Right\n" // abdo
+         <<"f-\tSkew Image Up\n"   // omar
          <<"s-\tSave the image to a file\n"
          <<"0-\tExit \n";
     cin >> num ;
     return num;
 }
-
-
 
 void Black_White(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
 
@@ -79,6 +75,7 @@ void Black_White(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
 }
 void Invert_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
     // filter for invert image by complement
+
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0 ; j < SIZE ; j++) {
             new_image[i][j] = 255 - image[i][j];
@@ -323,7 +320,6 @@ void Crop_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
 }
 
 void Shuffle_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
-    //Assume the image consist of 4 quarters as shown, the user enters the order he wants to the quarters in the new image
     cout << "Please enter new order of quarters ? " ;
     int a, b, c, d;
     cin >> a >> b >> c >> d;
@@ -387,7 +383,6 @@ void filter8_1(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
 }
 
 void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
-    //This filter allows the user to enlarge one of the four quarters of the image into a separate new image
     cout << "Which quarter to enlarge 1, 2, 3 or 4? ";
     int num ;
     cin >> num ;
@@ -412,39 +407,154 @@ void Enlarge_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]
         }
     }
 }
-void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]) {
-    double rad ; cin >> rad ;
-    rad=90-rad;
-    rad =(rad*3.14159/180);
-    int x=256/(1+1/tan(rad));
-    double step=SIZE-x;
-    double mov =step/SIZE;
 
-    for (int i = 0; i < SIZE; i++)
-        for (int j = 0; j < SIZE; j++)
-            new_image[i][j] = 255;
 
-    for (int i = 0 ; i < SIZE ; i++ ){
-        for ( int j=0;j<SIZE; j++ ){
-            new_image[i][j*int(x)/255] = image[i][j];
+
+// This filter allows the user to shrink the image dimensions to 1/2, 1/3 or 1/4 the original dimensions.
+void Shrink_Image(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    int x , new_size ;
+    cout<<"Would you like to shrink it to 1/2, 1/3, or 1/4?"<<endl;
+    cout << "1-\t 1/2\n"
+         << "2-\t 1/3\n"
+         << "3-\t 1/4\n";
+
+    cin >> x;
+
+    for(int i=0; i<SIZE; i++){
+        for (int j=0; j<SIZE; j++){
+            new_image[i][j]=255;
         }
     }
-    for (int i = 0 ; i < SIZE ; i++ ){
-        for ( int j=0;j<SIZE; j++ ){
-            image[i][j]=new_image[i][j];
+    switch (x) {
+        case 1:
+            new_size = SIZE/2;
+            for(int i=0; i< new_size; i++){
+                for(int j=0; j< new_size; j++){
+                    int sum = 0;
+                    for (int k = i * 2; k < (i * 2) + 2; k++) {
+                        for (int l = j * 2; l < (j * 2) + 2; l++) {
+                            sum += image[k][l];
+                        }
+                    }
+                    int average = sum / 4;
+                    new_image[i][j]=average;
+                }
+            }
+            break;
+        case 2:
+            new_size = SIZE/3;
+            for(int i=0; i< new_size; i++){
+                for(int j=0; j< new_size; j++){
+                    int sum = 0;
+
+                    for (int k = i * 3; k < (i * 3) + 3; k++) {
+                        for (int l = j * 3; l < (j * 3) + 3; l++) {
+                            sum += image[k][l];
+                        }
+                    }
+
+                    int average = sum / 9;
+                    new_image[i][j]=average;
+                }
+            }
+            break;
+        case 3:
+            new_size = SIZE/4;
+            for(int i=0; i<new_size; i++){
+                for(int j=0; j<new_size; j++){
+                    int sum = 0;
+                    for (int k = i * 4; k < (i * 4) + 4; k++) {
+                        for (int l = j * 4; l < (j * 4) + 4; l++) {
+                            sum += image[k][l];
+                        }
+                    }
+                    int average = sum / 16;
+                    new_image[i][j]=average;
+                }
+            }
+            break;
+    }
+    // Current image equal new_image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
         }
     }
-    for (int i = 0 ; i < SIZE ; i++ ){
-        for ( int j=0;j<SIZE; j++ ){
-            new_image[i][j+(int)step]=image[i][j];
-        }
-        step-=mov;
-    }
-    for (int i = 0 ; i < SIZE ; i++ ){
-            for ( int j=0;j<SIZE; j++ ){
-                image[i][j]=new_image[i][j];
+}
+
+
+int average(int x , int y , unsigned char image[][SIZE] ) {
+    // calculate avrage for pixle in image
+    int sum = 0 , cnt = 0 ;
+    for(int g = 0 ; g < 8 ; g++){
+        for (int m = 1 ; m <=3  ; m++){
+            int nx = x + dx[g]*m  , ny = y + dy[g]*m ;
+            if (valid(nx , ny) ){
+                sum += image[nx][ny];
+                cnt++;
             }
         }
+    }
+    return sum/cnt ;
+}
+
+void Blur(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    for (int i = 0 ; i < SIZE  ; i++){
+        for (int j = 0 ; j < SIZE ; j++){
+            int avr = average(i , j , image);
+            new_image[i][j] = avr ;
+        }
+    }
+    // Current image equal new_image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
+        }
+    }
+
+}
+
+
+void Skew_Horizontally(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
+    double degree ;
+    cout << "Please enter degree to skew right: " ;
+    cin >> degree;
+    degree = (degree*22)/(7*180);
+
+    double x = (tan(degree)*256 + 256)/256;  // rate of shrink
+    degree = atan(tan(degree)/x);    // shrink angle
+
+    for (int i = 0 ; i < SIZE ; i++){
+        int st = (SIZE-i-1)*tan(degree)  , end = SIZE-(i * tan(degree));
+        double lenght = end - st+1;
+        double shrink = SIZE / lenght;
+        int g = 0 , average = 0 , cnt = 1 ;
+        for  (int j = 0 ; j < SIZE ; j++){
+            average = 0 ;
+            if (j < st || j > end){
+                new_image[i][j] = 255;
+                continue;
+            }
+
+            // shrink of image
+
+            int num = 0 ;
+            for (; g < shrink*cnt ; g++){
+                average += image[i][g];
+                num++;
+            }
+            new_image[i][j] = average/num;
+            cnt++;
+        }
+    }
+
+    // Current image equal new_image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = new_image[i][j];
+        }
+    }
+
 }
 
 void Skew_Vertically(unsigned char image[][SIZE] , unsigned char new_image[][SIZE]){
@@ -486,10 +596,9 @@ void Skew_Vertically(unsigned char image[][SIZE] , unsigned char new_image[][SIZ
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             image[i][j] = new_image[i][j];
-        }
-    }
+        }
+    }
 }
-
 
 
 
